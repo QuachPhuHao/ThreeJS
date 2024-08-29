@@ -12,7 +12,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.appendChild(renderer.domElement);
 
 // Tạo hình khối (BoxGeometry) và thêm vào scene
-const geometry = new THREE.BoxGeometry();
+//const geometry = new THREE.BoxGeometry();
+const geometry = new THREE.SphereGeometry(1,32,32);
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
