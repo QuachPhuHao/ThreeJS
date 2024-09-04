@@ -12,12 +12,16 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.appendChild(renderer.domElement);
 
 // Tạo hình khối (BoxGeometry) và thêm vào scene
-//const geometry = new THREE.BoxGeometry();
-const geometry = new THREE.SphereGeometry(1,32,32);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2); // Hình học của cube
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }); // Vật liệu màu xanh lá
+const cube = new THREE.Mesh(geometry, material); // Tạo Mesh từ hình học và vật liệu
+scene.add(cube); // Thêm cube vào scene để hiển thị
 
+// Thêm ánh sáng toàn cảnh (AmbientLight)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Ánh sáng trắng với cường độ 0.5
+scene.add(ambientLight);
+
+// Thêm trục tọa độ (AxesHelper) để dễ hình dung
 const axesHelper = new THREE.AxesHelper(2);
 scene.add(axesHelper);
 
@@ -34,12 +38,8 @@ window.addEventListener('resize', () => {
 });
 
 // Hàm animate để tạo chuyển động và render scene
-function animate()
-{
+function animate() {
     requestAnimationFrame(animate);
-
-    // Quay hình khối
-
 
     // Cập nhật điều khiển (OrbitControls)
     controls.update();
