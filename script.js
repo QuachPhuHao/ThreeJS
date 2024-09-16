@@ -1,3 +1,6 @@
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
 // Tạo scene
 const scene = new THREE.Scene();
 
@@ -11,24 +14,25 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.body.appendChild(renderer.domElement);
 
-// Tạo hình khối (BoxGeometry) và thêm vào scene
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2); // Hình học của cube
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }); // Vật liệu màu xanh lá
-const cube = new THREE.Mesh(geometry, material); // Tạo Mesh từ hình học và vật liệu
-scene.add(cube); // Thêm cube vào scene để hiển thị
-
-// Thêm ánh sáng toàn cảnh (AmbientLight)
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Ánh sáng trắng với cường độ 0.5
-scene.add(ambientLight);
-
-// Thêm trục tọa độ (AxesHelper) để dễ hình dung
-const axesHelper = new THREE.AxesHelper(2);
-scene.add(axesHelper);
-
 // Thêm OrbitControls để người dùng có thể xoay và zoom camera
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;  // Bật hiệu ứng damping
 controls.dampingFactor = 0.05;  // Độ trễ mượt mà
+
+// Tạo GLTFLoader và tải mô hình
+const loader = new GLTFLoader();
+loader.load(
+    '/Steve.gltf',
+    function (gltf) {
+        scene.add(gltf.scene);
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function (error) {
+        console.log('An error happened');
+    }
+);
 
 // Đặt sự kiện lắng nghe khi thay đổi kích thước cửa sổ
 window.addEventListener('resize', () => {
@@ -46,7 +50,7 @@ function animate() {
 
     // Render scene với camera
     renderer.render(scene, camera);
-};
+}
 
 // Gọi hàm animate để bắt đầu chu kỳ animation
 animate();
